@@ -1,4 +1,3 @@
-import { type ReactNode } from 'react';
 import { Wrench } from 'lucide-react';
 
 export function AdminPlaceholder({ title, description }: { title: string; description: string }) {

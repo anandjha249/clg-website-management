@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, ChevronRight, Download, FileText, Calendar } from 'lucide-react';
+import { Search, ChevronRight, FileText } from 'lucide-react';
 import { notices, noticeCategories } from '@/data/notices';
 import { Breadcrumbs, Badge, Pagination, EmptyState } from '@/components/ui/index';
 

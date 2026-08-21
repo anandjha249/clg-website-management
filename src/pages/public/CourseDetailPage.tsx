@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Clock, Users, GraduationCap, CheckCircle2, ArrowRight, BookOpen, IndianRupee } from 'lucide-react';
 import { getCourseById } from '@/data/courses';
 import { Breadcrumbs, Badge } from '@/components/ui/index';

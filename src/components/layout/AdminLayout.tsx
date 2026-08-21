@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
-import { GraduationCap, Menu, X, Sun, Moon, Bell, ChevronDown, Search, Home, Info, Building2, Users, BookOpen, Bell as BellIcon, Calendar, Image, ClipboardList, FileText, Trophy, FolderOpen, Settings, MessageSquare, LogOut, User, Shield } from 'lucide-react';
+import { GraduationCap, Menu, X, Sun, Moon, Bell, ChevronDown, Search, Home, Info, Building2, Users, BookOpen, Bell as BellIcon, Calendar, Image, ClipboardList, Trophy, FolderOpen, Settings, MessageSquare, LogOut, User, Shield } from 'lucide-react';
 import { useTheme } from '@/context/ThemeContext';
 import { college } from '@/data/college';
 

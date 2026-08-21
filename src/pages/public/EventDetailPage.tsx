@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Calendar, Clock, MapPin, ArrowLeft } from 'lucide-react';
 import { getEventById } from '@/data/events';
 import { Breadcrumbs, Badge } from '@/components/ui/index';

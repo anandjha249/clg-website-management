@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import { Calendar, CheckCircle2, FileText, IndianRupee, ClipboardList, ArrowRight, HelpCircle } from 'lucide-react';
 import { importantDates, requiredDocuments, admissionFaqs } from '@/data/students';
 import { courses } from '@/data/courses';

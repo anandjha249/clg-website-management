@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Mail, GraduationCap, ArrowRight } from 'lucide-react';
+import { Search, Mail, GraduationCap } from 'lucide-react';
 import { faculty } from '@/data/faculty';
 import { departments } from '@/data/departments';
 import { Breadcrumbs, Badge } from '@/components/ui/index';

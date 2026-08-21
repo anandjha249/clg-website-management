@@ -5,14 +5,32 @@ import { departmentContacts as deptContacts } from '@/data/students';
 import { Breadcrumbs } from '@/components/ui/index';
 import { Button } from '@/components/ui/Button';
 import { useToast } from '@/context/ToastContext';
+import { getLocal, setLocal, isMongoEnabled } from '@/lib/storage';
 
 export function ContactPage() {
   const [form, setForm] = useState({ name: '', email: '', phone: '', subject: '', message: '' });
   const { showToast } = useToast();
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.name || !form.email || !form.message) { showToast('Please fill all required fields', 'warning'); return; }
+    const newMsg = {
+      id: `msg${Date.now()}`,
+      name: form.name,
+      email: form.email,
+      phone: form.phone || '+91 90000 00000',
+      subject: form.subject || 'General Enquiry',
+      message: form.message,
+      date: new Date().toISOString().slice(0, 10),
+      status: 'Unread' as const,
+    };
+    try {
+      const existing = getLocal('messages', [] as typeof newMsg[]);
+      setLocal('messages', [newMsg, ...existing]);
+      if (isMongoEnabled()) {
+        await fetch('/api/messages', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(newMsg) }).catch(() => {});
+      }
+    } catch (e) { console.warn('persist message failed', e); }
     showToast('Message sent successfully! We will get back to you soon.', 'success');
     setForm({ name: '', email: '', phone: '', subject: '', message: '' });
   };

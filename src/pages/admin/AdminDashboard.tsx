@@ -2,7 +2,7 @@ import { Users, BookOpen, ClipboardList, Bell, Calendar, GraduationCap, Trending
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { admissions, contactMessages } from '@/data/students';
 import { notices } from '@/data/notices';
-import { events, getUpcomingEvents } from '@/data/events';
+import { getUpcomingEvents } from '@/data/events';
 import { departments } from '@/data/departments';
 import { Badge } from '@/components/ui/index';
 import { Link } from 'react-router-dom';
@@ -106,7 +106,7 @@ export function AdminDashboard() {
           <div className="mb-4"><h3 className="font-semibold text-slate-800 dark:text-white">Students by Department</h3><p className="text-xs text-slate-400">Distribution across departments</p></div>
           <ResponsiveContainer width="100%" height={260}>
             <PieChart>
-              <Pie data={studentsByDept} dataKey="students" nameKey="name" cx="50%" cy="50%" outerRadius={90} label={(entry: any) => `${entry.name}: ${entry.students}`}>
+              <Pie data={studentsByDept} dataKey="students" nameKey="name" cx="50%" cy="50%" outerRadius={90} label={(entry: { name: string; students: number }) => `${entry.name}: ${entry.students}`}>
                 {studentsByDept.map((_, i) => <Cell key={i} fill={['#2f3fc7', '#f59e0b', '#3d54e5', '#d97706', '#2835a2', '#b45309', '#5b78f1'][i % 7]} />)}
               </Pie>
               <Tooltip contentStyle={{ borderRadius: '12px', border: '1px solid #e2e8f0', fontSize: '13px' }} />

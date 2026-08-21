@@ -1,10 +1,12 @@
 import { useState } from 'react';
-import { Building2, Globe, Palette, User, Lock, Save, Upload } from 'lucide-react';
+import { Building2, Globe, Palette, User, Lock, Save, Upload, Database, HardDrive, RefreshCw, Trash2 } from 'lucide-react';
 import { college } from '@/data/college';
 import { Button } from '@/components/ui/Button';
 import { useToast } from '@/context/ToastContext';
+import { getStorageMode, clearDemoData } from '@/lib/storage';
+import { seedDemoData } from '@/lib/seed';
 
-type Tab = 'college' | 'website' | 'theme' | 'profile' | 'password';
+type Tab = 'college' | 'website' | 'theme' | 'profile' | 'password' | 'storage';
 
 export function AdminSettingsPage() {
   const { showToast } = useToast();
@@ -16,6 +18,7 @@ export function AdminSettingsPage() {
     { key: 'theme', label: 'Theme', icon: Palette },
     { key: 'profile', label: 'Admin Profile', icon: User },
     { key: 'password', label: 'Password', icon: Lock },
+    { key: 'storage', label: 'Demo & Storage', icon: Database },
   ];
 
   const save = () => showToast('Settings saved successfully!', 'success');
@@ -117,6 +120,46 @@ export function AdminSettingsPage() {
                 <div><label className="label-base">Confirm New Password</label><input type="password" className="input-base" placeholder="••••••••" /></div>
                 <div className="rounded-xl bg-slate-50 p-3 dark:bg-slate-700/50"><p className="text-xs text-slate-500 dark:text-slate-400">Password must be at least 8 characters, include uppercase, lowercase, and a number.</p></div>
                 <div className="flex justify-end"><Button variant="primary" icon={<Save className="h-4 w-4" />} onClick={save}>Update Password</Button></div>
+              </div>
+            )}
+
+            {tab === 'storage' && (
+              <div className="space-y-6">
+                <h3 className="font-display text-lg font-bold text-slate-800 dark:text-white">Demo & Storage Settings</h3>
+                <div className="rounded-xl border border-slate-200 p-5 dark:border-slate-700">
+                  <div className="flex items-center gap-3">
+                    <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${getStorageMode() === 'mongodb' ? 'bg-green-100 text-green-600' : 'bg-amber-100 text-amber-600'}`}>
+                      {getStorageMode() === 'mongodb' ? <Database className="h-5 w-5" /> : <HardDrive className="h-5 w-5" />}
+                    </div>
+                    <div>
+                      <p className="font-semibold text-slate-800 dark:text-white">Current Mode: {getStorageMode() === 'mongodb' ? 'MongoDB (Persistent)' : 'localStorage (Browser Demo)'}</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400">{getStorageMode() === 'mongodb' ? 'Data is persisted in MongoDB Atlas via Vercel Functions.' : 'Data is stored in browser localStorage. Add MONGODB_URI in .env to enable MongoDB.'}</p>
+                    </div>
+                  </div>
+                  <div className="mt-4 rounded-lg bg-slate-50 p-3 dark:bg-slate-700/50">
+                    <p className="text-xs font-mono text-slate-600 dark:text-slate-300">MONGODB_URI: {import.meta.env.VITE_MONGODB_URI ? '●●●●●●● (configured)' : 'not set — using localStorage fallback'}</p>
+                    <p className="text-xs font-mono text-slate-600 dark:text-slate-300">VITE_USE_MONGODB: {String(import.meta.env.VITE_USE_MONGODB || 'false')}</p>
+                  </div>
+                </div>
+
+                <div>
+                  <h4 className="text-sm font-semibold text-slate-700 dark:text-slate-200">Demo Data Controls</h4>
+                  <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">Manage demo data for presentations. All data is pre-loaded with realistic college datasets.</p>
+                  <div className="mt-3 flex flex-wrap gap-3">
+                    <Button variant="outline" icon={<RefreshCw className="h-4 w-4" />} onClick={() => { seedDemoData(); showToast('Demo data re-seeded to localStorage', 'success'); }}>Re-seed Demo Data</Button>
+                    <Button variant="outline" icon={<Trash2 className="h-4 w-4" />} onClick={() => { if (confirm('Clear all localStorage demo data?')) { clearDemoData(); showToast('Local data cleared — reloading...', 'info'); } }}>Clear Local Data</Button>
+                  </div>
+                </div>
+
+                <div className="rounded-xl bg-navy-50 p-4 dark:bg-navy-900/20">
+                  <h4 className="text-sm font-semibold text-navy-700 dark:text-navy-300">How MongoDB fallback works</h4>
+                  <ol className="mt-2 list-decimal space-y-1 pl-5 text-xs text-slate-600 dark:text-slate-400">
+                    <li>By default, the app uses <strong>localStorage</strong> with pre-seeded demo data — perfect for demos & Vercel preview without setup.</li>
+                    <li>To enable MongoDB: set <code className="rounded bg-white px-1">MONGODB_URI</code> in Vercel env vars and <code className="rounded bg-white px-1">VITE_USE_MONGODB=true</code>.</li>
+                    <li>When configured, Vercel serverless functions (<code>/api/*</code>) will store admissions, messages, notices in MongoDB. Client auto-detects and syncs.</li>
+                    <li>If MongoDB is unreachable, the app gracefully falls back to localStorage — no errors for visitors.</li>
+                  </ol>
+                </div>
               </div>
             )}
           </div>

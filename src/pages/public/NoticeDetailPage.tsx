@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Calendar, Download, FileText, ArrowLeft, Tag } from 'lucide-react';
 import { getNoticeById } from '@/data/notices';
 import { Breadcrumbs, Badge } from '@/components/ui/index';

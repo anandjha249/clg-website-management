@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { BookOpen, Calendar, Trophy, Download, Bell, FileText, ArrowRight, ClipboardList } from 'lucide-react';
+import { BookOpen, Calendar, Trophy, Download, Bell, FileText, ArrowRight } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/index';
 import { academicCalendar } from '@/data/students';
 

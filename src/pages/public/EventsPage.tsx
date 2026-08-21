@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, Clock, Calendar } from 'lucide-react';
 import { events } from '@/data/events';
-import { Breadcrumbs, Badge } from '@/components/ui/index';
+import { Breadcrumbs } from '@/components/ui/index';
 
 export function EventsPage() {
   const [tab, setTab] = useState<'upcoming' | 'past'>('upcoming');

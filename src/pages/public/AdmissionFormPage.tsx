@@ -4,6 +4,7 @@ import { courses } from '@/data/courses';
 import { Breadcrumbs, Badge } from '@/components/ui/index';
 import { Button } from '@/components/ui/Button';
 import { useToast } from '@/context/ToastContext';
+import { getLocal, setLocal, isMongoEnabled } from '@/lib/storage';
 
 const steps = ['Personal', 'Contact', 'Academic', 'Course', 'Documents', 'Review'];
 
@@ -24,13 +25,43 @@ export function AdmissionFormPage() {
   const next = () => { if (step < steps.length - 1) setStep(step + 1); };
   const prev = () => { if (step > 0) setStep(step - 1); };
 
-  const submit = () => {
+  const submit = async () => {
+    const appId = `APP2026-${String(Math.floor(Math.random() * 900) + 100)}`;
+    const courseName = courses.find((c) => c.id === formData.course)?.name || formData.course;
+    const newAdmission = {
+      id: `a${Date.now()}`,
+      applicationId: appId,
+      studentName: `${formData.firstName} ${formData.lastName}`.trim() || 'New Applicant',
+      email: formData.email,
+      phone: formData.phone,
+      courseId: formData.course,
+      courseName,
+      applicationDate: new Date().toISOString().slice(0, 10),
+      status: 'Pending' as const,
+      percentage10: Number(formData.percentage10) || 0,
+      percentage12: Number(formData.percentage12) || 0,
+      entranceRank: Number(formData.entranceRank) || 0,
+      documents: ['10th Certificate', '12th Certificate', 'Transfer Certificate', 'Aadhaar Card'],
+    };
+
+    // Persist to localStorage fallback
+    try {
+      const existing = getLocal('admissions', [] as typeof newAdmission[]);
+      setLocal('admissions', [...existing, newAdmission]);
+      // Also try MongoDB if enabled
+      if (isMongoEnabled()) {
+        await fetch('/api/admissions', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(newAdmission) }).catch(() => {});
+      }
+    } catch (e) { console.warn('persist admission failed', e); }
+
+    // store last app id for display
+    sessionStorage.setItem('last_app_id', appId);
     setSubmitted(true);
-    showToast('Application submitted successfully!', 'success');
+    showToast(`Application ${appId} submitted successfully!`, 'success');
   };
 
   if (submitted) {
-    const appId = `APP2026-${String(Math.floor(Math.random() * 900) + 100)}`;
+    const appId = sessionStorage.getItem('last_app_id') || `APP2026-${String(Math.floor(Math.random() * 900) + 100)}`;
     return (
       <div>
         <section className="relative overflow-hidden bg-navy-900 py-16"><div className="absolute inset-0 bg-gradient-to-br from-navy-800 to-navy-950" /><div className="container-page relative"><Breadcrumbs items={[{ label: 'Home', to: '/' }, { label: 'Admissions', to: '/admissions' }, { label: 'Application Submitted' }]} /></div></section>

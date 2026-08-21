@@ -40,6 +40,7 @@ import { AdminStudentsPage } from '@/pages/admin/AdminStudentsPage';
 import { AdminMessagesPage } from '@/pages/admin/AdminMessagesPage';
 import { AdminSettingsPage } from '@/pages/admin/AdminSettingsPage';
 import { AdminPlaceholder } from '@/pages/admin/AdminPlaceholder';
+import { DemoBanner } from '@/components/DemoBanner';
 
 function NotFound() {
   return (
@@ -57,6 +58,7 @@ function App() {
   return (
     <ThemeProvider>
       <ToastProvider>
+        <DemoBanner />
         <BrowserRouter>
           <Routes>
             {/* Auth routes (no layout) */}

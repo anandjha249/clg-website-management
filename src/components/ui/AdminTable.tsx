@@ -1,7 +1,7 @@
 import { type ReactNode, useState } from 'react';
 import { Search, Plus, Eye, Pencil, Trash2, Filter } from 'lucide-react';
 import { Button } from './Button';
-import { Badge, Pagination, EmptyState, ConfirmDialog } from './index';
+import { Pagination, EmptyState, ConfirmDialog } from './index';
 import { useToast } from '@/context/ToastContext';
 
 export type Column<T> = {

@@ -1,13 +1,14 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, BookOpen, ClipboardList, Bell, Trophy, Calendar, FolderOpen, Award, Users, GraduationCap, Target, Compass, ChevronRight, MapPin } from 'lucide-react';
+import { ArrowRight, BookOpen, ClipboardList, Bell, Trophy, Calendar, FolderOpen, Award, Users, GraduationCap, Target, Compass, ChevronRight, MapPin, Star, Quote, TrendingUp, Building2, Briefcase, Globe, Leaf, Lightbulb } from 'lucide-react';
 import { college, principal, stats, quickLinks, visionMission, campusHighlights } from '@/data/college';
 import { notices } from '@/data/notices';
 import { getUpcomingEvents } from '@/data/events';
 import { getFeaturedCourses } from '@/data/courses';
 import { galleryItems } from '@/data/gallery';
+import { testimonials, placementStats, recruiters, newsTicker, whyChooseUs } from '@/data/demo';
 import { Button } from '@/components/ui/Button';
 
-const iconMap: Record<string, typeof Award> = { Award, BookOpen, Users, GraduationCap, ClipboardList, Bell, Trophy, Calendar, FolderOpen, Target, Compass };
+const iconMap: Record<string, typeof Award> = { Award, BookOpen, Users, GraduationCap, ClipboardList, Bell, Trophy, Calendar, FolderOpen, Target, Compass, TrendingUp, Building2, Briefcase, Globe, Leaf, Lightbulb };
 
 export function HomePage() {
   const upcomingEvents = getUpcomingEvents().slice(0, 3);
@@ -17,20 +18,36 @@ export function HomePage() {
 
   return (
     <div>
+      {/* News Ticker */}
+      <div className="bg-gold-500 py-2 text-white overflow-hidden">
+        <div className="flex animate-marquee whitespace-nowrap">
+          {[...newsTicker, ...newsTicker].map((news, i) => (
+            <span key={i} className="mx-6 flex items-center gap-2 text-sm font-medium">
+              <span className="h-1.5 w-1.5 rounded-full bg-white" /> {news}
+            </span>
+          ))}
+        </div>
+      </div>
+
       {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0">
-          <img src="https://images.pexels.com/photos/35314982/pexels-photo-35314982.jpeg?auto=compress&cs=tinysrgb&w=1920" alt="SVIT Campus" className="h-full w-full object-cover" />
+          <img src="https://images.pexels.com/photos/207692/pexels-photo-207692.jpeg?auto=compress&cs=tinysrgb&w=1920" alt="SVIT Campus" className="h-full w-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-r from-navy-950/95 via-navy-900/85 to-navy-900/40" />
         </div>
         <div className="container-page relative py-20 sm:py-28 lg:py-36">
           <div className="max-w-2xl animate-fade-in">
-            <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-sm font-medium text-white backdrop-blur-sm ring-1 ring-white/20"><Award className="h-4 w-4 text-gold-400" /> NAAC A+ Accredited • Estd. {college.established}</span>
+            <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-sm font-medium text-white backdrop-blur-sm ring-1 ring-white/20"><Award className="h-4 w-4 text-gold-400" /> NAAC A+ Accredited • Estd. {college.established} • NIRF Ranked</span>
             <h1 className="mt-6 font-display text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl">Welcome to <span className="text-gold-400">Sri Venkateswara</span> Institute of Technology</h1>
             <p className="mt-5 text-lg leading-relaxed text-slate-200">A premier institution committed to academic excellence, cutting-edge research, and holistic development. Empowering students to become innovators and leaders since {college.established}.</p>
             <div className="mt-8 flex flex-wrap gap-4">
               <Button to="/courses" size="lg" variant="gold" iconRight={<ArrowRight className="h-5 w-5" />}>Explore Courses</Button>
               <Button to="/admissions" size="lg" variant="outline" className="border-white/30 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20">Apply for Admission</Button>
+            </div>
+            <div className="mt-6 flex items-center gap-4 text-sm text-slate-300">
+              <span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-green-400 animate-pulse" /> Admissions Open 2026-27</span>
+              <span>•</span>
+              <span>5000+ Students • 112 Faculty • 142 Recruiters</span>
             </div>
           </div>
         </div>
@@ -64,6 +81,56 @@ export function HomePage() {
                 </Link>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      {/* Why Choose Us */}
+      <section className="bg-white py-16 dark:bg-slate-800/50">
+        <div className="container-page">
+          <div className="mb-10 text-center"><h2 className="font-display text-3xl font-bold text-slate-800 dark:text-white">Why Choose SVIT?</h2><p className="mt-2 text-slate-500 dark:text-slate-400">What makes us a preferred destination for engineering education</p></div>
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {whyChooseUs.map((item) => {
+              const Icon = iconMap[item.icon] || Award;
+              return (
+                <div key={item.title} className="card p-6 text-center">
+                  <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-xl bg-navy-100 text-navy-700 dark:bg-navy-900/30 dark:text-navy-300"><Icon className="h-7 w-7" /></div>
+                  <h3 className="mt-4 font-semibold text-slate-800 dark:text-white">{item.title}</h3>
+                  <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">{item.description}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Placement Highlights */}
+      <section className="py-16">
+        <div className="container-page">
+          <div className="mb-10 text-center">
+            <h2 className="font-display text-3xl font-bold text-slate-800 dark:text-white">Placement Highlights</h2>
+            <p className="mt-2 text-slate-500 dark:text-slate-400">Our students are placed in top MNCs with excellent packages</p>
+          </div>
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+            {placementStats.map((stat) => (
+              <div key={stat.year} className="card p-6 text-center">
+                <p className="text-sm font-semibold text-navy-600 dark:text-navy-400">{stat.year}</p>
+                <p className="mt-2 font-display text-3xl font-bold text-slate-800 dark:text-white">{stat.placed} Placed</p>
+                <div className="mt-4 grid grid-cols-3 gap-3 text-center">
+                  <div><p className="text-xs text-slate-400">Highest</p><p className="font-bold text-slate-800 dark:text-white">{stat.highest}</p></div>
+                  <div className="border-l border-slate-200 dark:border-slate-700"><p className="text-xs text-slate-400">Average</p><p className="font-bold text-slate-800 dark:text-white">{stat.average}</p></div>
+                  <div className="border-l border-slate-200 dark:border-slate-700"><p className="text-xs text-slate-400">Companies</p><p className="font-bold text-slate-800 dark:text-white">{stat.companies}</p></div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-8 card p-6">
+            <h3 className="text-center font-semibold text-slate-800 dark:text-white">Our Top Recruiters</h3>
+            <div className="mt-4 flex flex-wrap justify-center gap-3">
+              {recruiters.map((r) => (
+                <span key={r} className="rounded-full border border-slate-200 bg-slate-50 px-4 py-1.5 text-sm font-medium text-slate-700 dark:border-slate-700 dark:bg-slate-700/50 dark:text-slate-300">{r}</span>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -119,8 +186,35 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* Latest Notices */}
+      {/* Testimonials */}
       <section className="py-16">
+        <div className="container-page">
+          <div className="mb-10 text-center"><h2 className="font-display text-3xl font-bold text-slate-800 dark:text-white">What Our Students Say</h2><p className="mt-2 text-slate-500 dark:text-slate-400">Hear from our alumni who are excelling in top companies worldwide</p></div>
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {testimonials.map((t) => (
+              <div key={t.id} className="card p-6">
+                <div className="flex items-center gap-1 text-gold-500">
+                  {Array.from({ length: t.rating }).map((_, i) => <Star key={i} className="h-4 w-4 fill-current" />)}
+                </div>
+                <div className="relative mt-4">
+                  <Quote className="absolute -top-2 -left-1 h-8 w-8 text-navy-100 dark:text-navy-900/30" />
+                  <p className="relative text-sm leading-relaxed text-slate-600 dark:text-slate-300">"{t.quote}"</p>
+                </div>
+                <div className="mt-5 flex items-center gap-3">
+                  <img src={t.photo} alt={t.name} className="h-12 w-12 rounded-full object-cover" />
+                  <div>
+                    <p className="text-sm font-semibold text-slate-800 dark:text-white">{t.name}</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">{t.role} • {t.company} • {t.batch} • {t.department}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Latest Notices */}
+      <section className="bg-white py-16 dark:bg-slate-800/50">
         <div className="container-page">
           <div className="mb-8 flex items-end justify-between">
             <div><h2 className="font-display text-3xl font-bold text-slate-800 dark:text-white">Latest Notices</h2><p className="mt-2 text-slate-500 dark:text-slate-400">Stay updated with the latest announcements</p></div>
@@ -148,7 +242,7 @@ export function HomePage() {
       </section>
 
       {/* Upcoming Events */}
-      <section className="bg-white py-16 dark:bg-slate-800/50">
+      <section className="py-16">
         <div className="container-page">
           <div className="mb-8 flex items-end justify-between">
             <div><h2 className="font-display text-3xl font-bold text-slate-800 dark:text-white">Upcoming Events</h2><p className="mt-2 text-slate-500 dark:text-slate-400">Join us at our next big event</p></div>
@@ -173,7 +267,7 @@ export function HomePage() {
       </section>
 
       {/* Featured Courses */}
-      <section className="py-16">
+      <section className="bg-white py-16 dark:bg-slate-800/50">
         <div className="container-page">
           <div className="mb-8 flex items-end justify-between">
             <div><h2 className="font-display text-3xl font-bold text-slate-800 dark:text-white">Featured Courses</h2><p className="mt-2 text-slate-500 dark:text-slate-400">Popular programs chosen by our students</p></div>
@@ -199,7 +293,7 @@ export function HomePage() {
       </section>
 
       {/* Gallery Preview */}
-      <section className="bg-white py-16 dark:bg-slate-800/50">
+      <section className="py-16">
         <div className="container-page">
           <div className="mb-8 flex items-end justify-between">
             <div><h2 className="font-display text-3xl font-bold text-slate-800 dark:text-white">Campus Gallery</h2><p className="mt-2 text-slate-500 dark:text-slate-400">A glimpse of life at SVIT</p></div>

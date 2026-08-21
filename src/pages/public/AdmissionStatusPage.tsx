@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Search, ArrowRight, Download, Calendar, FileText } from 'lucide-react';
+import { Search, Calendar, FileText } from 'lucide-react';
 import { getAdmissionByApplicationId } from '@/data/students';
 import { Breadcrumbs, Badge } from '@/components/ui/index';
 import { Button } from '@/components/ui/Button';
@@ -31,7 +31,7 @@ export function AdmissionStatusPage() {
           <div className="card p-6">
             <label className="label-base">Application ID</label>
             <div className="flex gap-3">
-              <div className="relative flex-1"><Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" /><input className="input-base pl-12" placeholder="e.g. APP2026-001" value={appId} onChange={(e) => setApp(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && checkStatus()} /></div>
+              <div className="relative flex-1"><Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" /><input className="input-base pl-12" placeholder="e.g. APP2026-001" value={appId} onChange={(e) => setAppId(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && checkStatus()} /></div>
               <Button variant="primary" onClick={checkStatus}>Check Status</Button>
             </div>
             <p className="mt-3 text-xs text-slate-400">Try: APP2026-001, APP2026-003, APP2026-005</p>
